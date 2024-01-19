@@ -8,9 +8,9 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const res = await fetch("http://localhost:9999/topics", {
+  const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "topics", {
     // next: { revalidate: 0 },
-    // 10초가 지나면 cache가 다시 만들어진다는 의미.
+    // 0초가 지나면 cache가 다시 만들어진다는 의미.
 
     cache: "no-store",
     // cache를 저장하지 않는다는 의미.
