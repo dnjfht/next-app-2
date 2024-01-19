@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "./globals.css";
+import { Control } from "./Control";
 
 export const metadata = {
   title: "Web tutorials",
@@ -7,7 +8,13 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const res = await fetch("http://localhost:9999/topics");
+  const res = await fetch("http://localhost:9999/topics", {
+    // next: { revalidate: 0 },
+    // 10초가 지나면 cache가 다시 만들어진다는 의미.
+
+    cache: "no-store",
+    // cache를 저장하지 않는다는 의미.
+  });
   const topics = await res.json();
 
   return (
@@ -26,17 +33,8 @@ export default async function RootLayout({ children }) {
           })}
         </ol>
         {children}
-        <ul>
-          <li>
-            <Link href="/create">Create</Link>
-          </li>
-          <li>
-            <Link href="/update/1">Update</Link>
-          </li>
-          <li>
-            <input type="button" value="delete" />
-          </li>
-        </ul>
+
+        <Control />
       </body>
     </html>
   );
